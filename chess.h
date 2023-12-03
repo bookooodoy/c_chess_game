@@ -5,17 +5,18 @@
 # include <unistd.h>
 # include <ctype.h>
 # include <stdlib.h>
+# include <string.h>
 
 typedef struct
 {
-        char                    name;
-        unsigned int            x_cords;
-        unsigned int            y_cords;
+        char	name;
+	int	piece_value;
 } piece;
 
 typedef struct
 {
         int     isEmpty;
+	int	enPassant;
         piece ChessPiece;
 } square;
 
@@ -25,6 +26,7 @@ typedef struct
 } board;
 
 void    ptr_tab(board ChessBoard);
-board 	Fill_starting_position(char *fenstring);
+board 	Fill_starting_position(const char *fenstring);
+char    *update_fenstring(const board ChessBoard);
 
 #endif
