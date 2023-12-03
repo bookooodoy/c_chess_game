@@ -1,24 +1,6 @@
 #include "chess.h"
 
-typedef struct Piece
-{
-	char			name;
-	const unsigned int	color;
-	unsigned int		x_cords;
-	unsigned int		y_cords;
-} piece;
-
-typedef struct Square
-{
-	int	isEmpty;
-	piece ChessPiece;
-} square;
-
-typedef struct Board
-{
-	square ChessSquare[8][8];
-} board;
-
+/*
 int	**get_legal_moves_pawn(piece *piece, char **board)
 {
 	int	**legal_moves;
@@ -106,15 +88,25 @@ int	**get_legal_moves_rook(piece *piece, char **board)
 	}
 	return (legal_moves);
 }
-
+*/
 int	main(void)
 {
 	piece *ptr, rook;
+	board *ChessBoard, cboard;
 
+	ChessBoard = &cboard; 
 	ptr = &rook;
 	ptr->name = 'r';
 	ptr->x_cords = 0;
 	ptr->y_cords = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			write(1, cboard[i][j], 1);
+		}
+		write(1, "\n", 1);
+	}
 	printf("%c\n%d\n%d\n", ptr->name, ptr->x_cords, ptr->y_cords);
 	return 0;
 }

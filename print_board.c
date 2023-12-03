@@ -1,80 +1,68 @@
 #include "chess.h"
 
-static void	ptr_pieceval(char piece)
+board Fill_starting_position(char *fenstring)
 {
-	switch(piece)
-	{
-		case	'p':
-			write(1, "p", 1);
-			break;
-		case	'r':
-			write(1, "r", 1);
-			break;
-		case	'n':
-			write(1, "n", 1);
-			break;
-		case	'b':
-			write(1, "b", 1);
-			break;
-		case	'k':
-			write(1, "k", 1);
-			break;
-		case	'q':
-			write(1, "q", 1);
-			break;
-		case	'P':
-			write(1, "P", 1);
-			break;
-		case	'R':
-			write(1, "R", 1);
-			break;
-		case	'N':
-			write(1, "N", 1);
-			break;
-		case	'B':
-			write(1, "B", 1);
-			break;
-		case	'K':
-			write(1, "K", 1);
-			break;
-		case	'Q':
-			write(1, "Q", 1);
-			break;
-		case	'/':
-			write(1, "\n", 1);
-			break;
-		default:
-			break;
-	}
+        board   ChessBoard;
+        int     i;
+        int     j;
+        int     count;
+
+        i = count = 0;
+        while (i < 8)
+        {
+                j = 0;
+                while (j < 8)
+                {
+                        if (isdigit(fenstring[count]))
+                        {
+                                while (j < fenstring[count] - '0')
+                                {
+                                        ChessBoard.ChessSquare[i][j].isEmpty = 1;
+                                        j++;
+                                }
+                        }
+                        else
+                        {
+                                ChessBoard.ChessSquare[i][j].isEmpty = 0;
+                                ChessBoard.ChessSquare[i][j].ChessPiece.name = fenstring[count];
+                                ChessBoard.ChessSquare[i][j].ChessPiece.x_cords = j;
+                                ChessBoard.ChessSquare[i][j].ChessPiece.y_cords = i;
+                                j++;
+                        }
+                        count++;
+                }
+                i++;
+        }
+        return (ChessBoard);
 }
 
-void	ptr_tab(const char *fenstring)
+void	ptr_tab(board ChessBoard)
 {
 	int	i;
-	int	k;
+	int	j;
 
-	i = k = 0;
-	while (i < 64)
+	i = 0;
+	while (i < 8)
 	{
-		if (isdigit(fenstring[i]))
+		j = 0;
+		while (j < 8)
 		{
-			k = fenstring[i] - '0';
-			while (k >= 0)
-			{
-				write(1, ". ", 3);
-				k--;
-			}
+			if (ChessBoard.ChessSquare[i][j].isEmpty == 1)
+				write(1, ". ", 1);
+			else
+				write(1, &(ChessBoard.ChessSquare[i][j].ChessPiece.name), 1);
+			j++;
 		}
-		else
-			ptr_pieceval(fenstring[i]);
-		write(1, " ", 1);
 		i++;
 	}
 }
-/*
+
+
 int	main(void)
 {
 	char *fenstring = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1";
-	ptr_tab(fenstring);
+	board ChessBoard = Fill_starting_position(fenstring);
+
+	ptr_tab(ChessBoard);
 	return 0;
-}*/
+}
