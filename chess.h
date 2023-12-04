@@ -9,8 +9,11 @@
 
 typedef struct
 {
-        char	name;
-	int	piece_value;
+        char		name;
+	unsigned int	piece_value;
+	unsigned int	x_cords;
+	unsigned int	y_cords;
+	unsigned int	color;
 } piece;
 
 typedef struct
@@ -26,7 +29,7 @@ typedef struct
 } board;
 
 void    ptr_tab(board ChessBoard);
-board 	Fill_starting_position(const char *fenstring);
 char    *update_fenstring(const board ChessBoard);
+board 	Fill_starting_position(const char *fenstring);
 
 #endif

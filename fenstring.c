@@ -24,6 +24,12 @@ board Fill_starting_position(const char *fenstring)
 		{
 			ChessBoard.ChessSquare[i / 8][i % 8].isEmpty = 0;
 			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.name = fenstring[k];
+			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.x_cords = i % 8; 
+			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.y_cords = i / 8;
+			if (islower(fenstring[k]))
+				ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.color = 1;
+			else
+				ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.color = 0;
 			i++;
 		}
 		k++;
@@ -91,7 +97,7 @@ void	ptr_tab(board ChessBoard)
 	}
 }
 
-
+/*
 int	main(void)
 {
 	//char *fenstring = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1";
@@ -103,6 +109,8 @@ int	main(void)
 	ChessBoard.ChessSquare[1][0].isEmpty = 1;
 	ChessBoard.ChessSquare[3][0].isEmpty = 0;
 	ChessBoard.ChessSquare[3][0].ChessPiece.name = 'p';
+	ChessBoard.ChessSquare[3][0].ChessPiece.y_cords = 3;
+	ChessBoard.ChessSquare[3][0].ChessPiece.x_cords = 0;
 
 	// get the new fenstring
 	char *newfenstring = update_fenstring(ChessBoard);
@@ -111,4 +119,4 @@ int	main(void)
 	ptr_tab(ChessBoard);
 	printf("\n%s\n", newfenstring);
 	return 0;
-}
+}*/
