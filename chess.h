@@ -14,12 +14,12 @@ typedef struct
 	unsigned int	x_cords;
 	unsigned int	y_cords;
 	unsigned int	color;
+	unsigned int	piece_fullmove;
 } piece;
 
 typedef struct
 {
         int     isEmpty;
-	int	enPassant;
         piece ChessPiece;
 } square;
 

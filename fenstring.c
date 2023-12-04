@@ -26,6 +26,7 @@ board Fill_starting_position(const char *fenstring)
 			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.name = fenstring[k];
 			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.x_cords = i % 8; 
 			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.y_cords = i / 8;
+			ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.piece_fullmove = 0;
 			if (islower(fenstring[k]))
 				ChessBoard.ChessSquare[i / 8][i % 8].ChessPiece.color = 1;
 			else
