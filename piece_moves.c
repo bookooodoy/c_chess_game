@@ -498,37 +498,31 @@ int	main(void)
 	board ChessBoard = Fill_starting_position(fenstring);
 	
 	ptr_tab(ChessBoard);
-        /*// update the board
-	ChessBoard.ChessSquare[1][0].isEmpty = 1;
+        // update the board
+	/*ChessBoard.ChessSquare[1][0].isEmpty = 1;
         ChessBoard.ChessSquare[3][0].ChessPiece.name = 'p';
         ChessBoard.ChessSquare[3][0].ChessPiece.y_cords = 3;
         ChessBoard.ChessSquare[3][0].ChessPiece.x_cords = 0;
-	ChessBoard.ChessSquare[3][0].ChessPiece.piece_fullmove += 1;
+	ChessBoard.ChessSquare[3][0].ChessPiece.piece_fullmove += 1;*/
 
-         // get the new fenstring*/
-	 //int	**legal_king_moves;
+         // get the new fenstring
+	 int	**legal_king_moves;
 	 //int	***threatmap = get_threatmap(ChessBoard, 0);
-	 //legal_king_moves = get_legal_moves_king(ChessBoard.ChessSquare[0][4].ChessPiece, ChessBoard, threatmap);
+	 legal_king_moves = get_legal_moves_bishop(ChessBoard.ChessSquare[4][5].ChessPiece, ChessBoard);
 	int i = 0;
 	int k = 0;
-	int j;
-	int	***threatmap;
+	//int	***threatmap;
 
-	threatmap = get_threatmap(ChessBoard, 1); 
-	while (threatmap[i])
+	//threatmap = get_threatmap(ChessBoard, 1); 
+	while (legal_king_moves[i])
 	{
-		while (threatmap[i][k])
+		k = 0;
+		while (k < 2)
 		{
-			j = 0;
-			while (j < 2)
-			{
-				if (threatmap[i][k])
-					printf("[%i,", threatmap[i][k][j]);
-				j++;
-			}
-			printf("\n");
+			printf("%i |", legal_king_moves[i][k]);
 			k++;
 		}
+		printf("\n");
 		i++;
 	}
 	return 0;
