@@ -28,14 +28,9 @@ int	**ft_strjoin(int **a, int **b)
 	}
 	while (b[k])
 	{
-		new_tab[i + k] = b[k++];
-		i++;
+		new_tab[i + k] = b[k];
+		k++;
 	}
 	new_tab[i + k] = NULL;
 	return (new_tab);
-}
-
-int	main(void)
-{
-
 }

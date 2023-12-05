@@ -39,7 +39,10 @@ int     **get_legal_moves_rook(piece piece, board ChessBoard);
 int     **get_legal_moves_bishop(piece piece, board ChessBoard);
 int     **get_legal_moves_queen(piece piece, board ChessBoard);
 int     **get_name_move(piece piece, board ChessBoard);
-int     **get_threatmap(board ChessBoard, unsigned int team);
+int     ***get_threatmap(board ChessBoard, unsigned int team);
+int     cords_in_threatmap(int *cords, int ***threatmap);
 int     **get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap);
+size_t  tab_len(int **tab);
+int     **ft_strjoin(int **a, int **b);
 
 #endif
