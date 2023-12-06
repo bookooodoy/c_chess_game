@@ -1,51 +1,63 @@
 #include "chess.h"
 
-int	check_square_valid(board ChessBoard, int y, int x, int team)
+int	check_square_valid(const board ChessBoard, int y, int x, int team)
 {
 	// TODO: add check function to verify if we are not in check and if so the move is valid
-	if (y < 0 || y >= 8 || x < 0 || x >= 8)
+	if ((y < 0 || y >= 8 )|| (x < 0 || x >= 8))
+	{
+		printf("\nBAD SQUARE at Square = [%i, %i], color = %i\n", y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
         	return (0);
-	if (!(ChessBoard.ChessSquare[y][x].ChessPiece.name) || (ChessBoard.ChessSquare[y][x].ChessPiece.color == -1))
-		return (0);
+	}
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 1)
+	{
+		printf("\nVALID EMPTY SQUARE at Square [%i, %i], color = %i\n", y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
 		return (1);
-	if (ChessBoard.ChessSquare[y][x].isEmpty == 0 && ChessBoard.ChessSquare[y][x].ChessPiece.color != team && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'k' && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'K')
+	}
+	if (ChessBoard.ChessSquare[y][x].isEmpty == 0 && ChessBoard.ChessSquare[y][x].ChessPiece.color != -1 && ChessBoard.ChessSquare[y][x].ChessPiece.color != team && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'k' && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'K')
+	{
+		printf("\nVALID SQUARE for piece =%c at Square [%i, %i], color = %i\n", ChessBoard.ChessSquare[y][x].ChessPiece.name, y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
 		return (2);
+	}
+	printf("\nRETURN NOTHING\n");
 	return (0);
 }
 
-int	**get_legal_moves_bpawn(piece piece, board ChessBoard)
+int	**get_legal_moves_bpawn(piece *piece, board ChessBoard)
 {
-	int	**legal_moves;
+	int		**legal_moves;
 	int	coordinates[2];
-	int	i = 0;
+	int		i = 0;
 
 	legal_moves = (int **)malloc(sizeof(int *) * 5);
 	if (!legal_moves)
 		return (NULL);
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords;
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords;
+		printf("%d %d\n", coordinates[0], coordinates[1]);
 		legal_moves[i++] = coordinates;
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 2, piece.x_cords, piece.color) && piece.piece_fullmove == 0)
+	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords, piece->color) && piece->piece_fullmove == 0)
 	{
-		coordinates[0] = piece.y_cords + 2;
-		coordinates[1] = piece.x_cords;
+		coordinates[0] = piece->y_cords + 2;
+		coordinates[1] = piece->x_cords;
+		printf("%i %i\n", coordinates[0], coordinates[1]);
 		legal_moves[i++] = coordinates;
 	}
 	//Check for capture
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords - 1, piece->color) == 2)
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords - 1;
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords - 1;
+		printf("%d %d\n", coordinates[0], coordinates[1]);
 		legal_moves[i++] = coordinates;
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords + 1, piece->color) == 2)
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords + 1;
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords + 1;
+		printf("%d %d\n", coordinates[0], coordinates[1]);
 		legal_moves[i++] = coordinates;
 	}
 	// TODO: En passant
@@ -354,7 +366,7 @@ int	**get_legal_moves_queen(piece piece, board ChessBoard)
 int	**get_name_move(piece piece, board ChessBoard)
 {
 	if (piece.name == 'p')
-		return (get_legal_moves_bpawn(piece, ChessBoard));
+		return (get_legal_moves_bpawn(&piece, ChessBoard));
 	if (piece.name == 'P')
 		return (get_legal_moves_wpawn(piece, ChessBoard));
 	if (piece.name == 'q' || piece.name == 'Q')
@@ -494,24 +506,76 @@ int	**get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap)
 	return (legal_moves); 
 }
 
+void	ptr_threatmap(int ***threatmap)
+{
+	int k;
+	int i;
+	int j;
+
+	i = j = 0;
+	while (threatmap[i])
+	{
+		while (threatmap[i][j])
+		{
+			k = 0;
+			printf("[");
+			while (k < 2)
+			{
+				if (k == 1)
+					printf("%i", threatmap[i][j][k]);
+				else
+					printf("%i,", threatmap[i][j][k]);
+				k++;
+			}
+			printf("] \n");
+			j++;
+		}
+		i++;
+	}
+}
+
+void	ptr_moves(int **moves)
+{
+	int i = 0;
+	int k;
+
+	printf("[");
+	while (i < 2)
+	{
+		k = 0;
+		printf("[");
+		while (k < 2)
+		{
+			if (k == 1)
+				printf("%d", moves[i][k]);
+			else
+				printf("%d,", moves[i][k]);
+			k++;
+		}
+		printf("],");
+		i++;
+	}
+	printf("]");
+}
+
 int	main(void)
 {
-	/*char *fenstring = "2B1R3/4q3/1K1P3n/P1N2p1P/2k2B2/2p1p3/1P4p1/8";
-	board ChessBoard = Fill_starting_position(fenstring);
-	
-	ptr_tab(ChessBoard);
-	*/
-	char *new_fenstring = "8/Rb2pq2/1P6/4kp2/1N2p1Pp/8/2P3rr/2KB4 w";
+	char *new_fenstring = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	printf("fenstring = %s\n", new_fenstring);
 	board ChessBoard = Fill_starting_position(new_fenstring);
 	ptr_tab(ChessBoard);
-	printf("==========DEBUGGING==========\n");
+	printf("\n=========LEGAL_MOVES=BLACK==========\n");
+	//int ***threatmap_b = get_threatmap(ChessBoard, 1);
+	//ptr_threatmap(threatmap_b);
+	int **bpawn = get_legal_moves_bpawn(&(ChessBoard.ChessSquare[1][0].ChessPiece), ChessBoard);
+	ptr_moves(bpawn);
+
+	/*printf("\n=========LEGAL_MOVES=WHITE==========\n");
+	int ***threatmap_w = get_threatmap(ChessBoard, 0);
+	ptr_threatmap(threatmap_w);
+
+	printf("\n==============DEBUGGING=============\n");
 	ptr_parameters_debug(ChessBoard);
-
-	/*int i = 0;
-	int k = 0;
-	int j;
-	*/
-
+*/
 	return (0);
 }

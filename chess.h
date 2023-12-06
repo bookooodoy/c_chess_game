@@ -10,7 +10,6 @@
 typedef struct
 {
         char		name;
-	unsigned int	piece_value;
 	unsigned int	x_cords;
 	unsigned int	y_cords;
 	int		color;
@@ -31,8 +30,8 @@ typedef struct
 void    ptr_tab(board ChessBoard);
 char    *update_fenstring(const board ChessBoard);
 board 	Fill_starting_position(const char *fenstring);
-int     check_square_valid(board ChessBoard, int y, int x, int team);
-int     **get_legal_moves_bpawn(piece piece, board ChessBoard);
+int     check_square_valid(const board ChessBoard, int y, int x, int team);
+int     **get_legal_moves_bpawn(piece *piece, board ChessBoard);
 int     **get_legal_moves_wpawn(piece piece, board ChessBoard);
 int     **get_legal_moves_knight(piece piece, board ChessBoard);
 int     **get_legal_moves_rook(piece piece, board ChessBoard);
@@ -45,6 +44,6 @@ int     **get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap);
 size_t  tab_len(int **tab);
 int     **ft_strjoin(int **a, int **b);
 void    ptr_parameters_debug(board CheBoard);
-void    initialize_piece(piece *piece);
+void    initialize_piece(piece *piece, char name, unsigned int x_cords, unsigned int y_cords, int color, unsigned int piece_fullmove);
 
 #endif
