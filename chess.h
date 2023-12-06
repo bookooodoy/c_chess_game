@@ -44,5 +44,7 @@ int     cords_in_threatmap(int *cords, int ***threatmap);
 int     **get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap);
 size_t  tab_len(int **tab);
 int     **ft_strjoin(int **a, int **b);
+void    ptr_parameters_debug(board ChessBoard);
+void    initialize_piece(piece *piece);
 
 #endif

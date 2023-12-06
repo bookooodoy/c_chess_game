@@ -5,6 +5,8 @@ int	check_square_valid(board ChessBoard, int y, int x, unsigned int team)
 	// TODO: add check function to verify if we are not in check and if so the move is valid
 	if (y < 0 || y >= 8 || x < 0 || x >= 8)
         	return (0);
+	if (!(ChessBoard.ChessSquare[y][x].ChessPiece.name) || (ChessBoard.ChessSquare[y][x].Chesspiece.color == -1))
+		return (0);
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 1)
 		return (1);
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 0 && ChessBoard.ChessSquare[y][x].ChessPiece.color != team && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'k' && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'K')
@@ -494,36 +496,22 @@ int	**get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap)
 
 int	main(void)
 {
-	char *fenstring = "2B1R3/4q3/1K1P3n/P1N2p1P/2k2B2/2p1p3/1P4p1/8";
+	/*char *fenstring = "2B1R3/4q3/1K1P3n/P1N2p1P/2k2B2/2p1p3/1P4p1/8";
 	board ChessBoard = Fill_starting_position(fenstring);
 	
 	ptr_tab(ChessBoard);
-        // update the board
-	/*ChessBoard.ChessSquare[1][0].isEmpty = 1;
-        ChessBoard.ChessSquare[3][0].ChessPiece.name = 'p';
-        ChessBoard.ChessSquare[3][0].ChessPiece.y_cords = 3;
-        ChessBoard.ChessSquare[3][0].ChessPiece.x_cords = 0;
-	ChessBoard.ChessSquare[3][0].ChessPiece.piece_fullmove += 1;*/
+	*/
+	char *new_fenstring = "8/Rb2pq2/1P6/4kp2/1N2p1Pp/8/2P3rr/2KB4";
+	printf("fenstring = %s\n", new_fenstring);
+	board ChessBoard = Fill_starting_position(new_fenstring);
+	ptr_tab(ChessBoard);
+	printf("==========DEBUGGING==========\n");
+	ptr_parameters_debug(ChessBoard);
 
-         // get the new fenstring
-	 int	**legal_king_moves;
-	 //int	***threatmap = get_threatmap(ChessBoard, 0);
-	 legal_king_moves = get_legal_moves_bishop(ChessBoard.ChessSquare[4][5].ChessPiece, ChessBoard);
-	int i = 0;
+	/*int i = 0;
 	int k = 0;
-	//int	***threatmap;
+	int j;
+	*/
 
-	//threatmap = get_threatmap(ChessBoard, 1); 
-	while (legal_king_moves[i])
-	{
-		k = 0;
-		while (k < 2)
-		{
-			printf("%i |", legal_king_moves[i][k]);
-			k++;
-		}
-		printf("\n");
-		i++;
-	}
-	return 0;
+	return (0);
 }
