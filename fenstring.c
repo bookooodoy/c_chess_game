@@ -18,7 +18,7 @@ board Fill_starting_position(const char *fenstring)
 	int	len;
 
 	i = k = 0;
-	while (k < (int)strlen(fenstring))
+	while (k < (int)strlen(fenstring) && !isspace(fenstring[k]))
 	{
 		if (isdigit(fenstring[k]))
 		{
@@ -47,6 +47,27 @@ board Fill_starting_position(const char *fenstring)
 		k++;
 	}
         return (ChessBoard);
+}
+
+int	get_fullmove(const board ChessBoard)
+{
+	int	i;
+	int	k;
+	int	fullmove;
+
+	i = fullmove = 0;
+	while (i < 8)
+	{
+		k = 0;
+		while (k < 8)
+		{
+			if (ChessBoard.ChessSquare[i][k].isEmpty == 0)	
+				fullmove += ChessBoard.ChessSquare[i][k].ChessPiece.piece_fullmove;
+			k++;
+		}
+		i++;
+	}
+	return (fullmove);
 }
 
 char	*update_fenstring(const board ChessBoard)
@@ -155,27 +176,3 @@ void	ptr_parameters_debug(board ChessBoard)
 		i++;
 	}
 }
-
-/*
-int	main(void)
-{
-	//char *fenstring = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1";
-	char *fenstring = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-	board ChessBoard = Fill_starting_position(fenstring);
-
-	ptr_tab(ChessBoard);
-	// update the board
-	ChessBoard.ChessSquare[1][0].isEmpty = 1;
-	ChessBoard.ChessSquare[3][0].isEmpty = 0;
-	ChessBoard.ChessSquare[3][0].ChessPiece.name = 'p';
-	ChessBoard.ChessSquare[3][0].ChessPiece.y_cords = 3;
-	ChessBoard.ChessSquare[3][0].ChessPiece.x_cords = 0;
-
-	// get the new fenstring
-	char *newfenstring = update_fenstring(ChessBoard);
-
-	printf("\n\n\n SECOND BOARD AFTER CHANGE \n\n\n");
-	ptr_tab(ChessBoard);
-	printf("\n%s\n", newfenstring);
-	return 0;
-}*/

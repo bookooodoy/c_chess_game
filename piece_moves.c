@@ -1,11 +1,11 @@
 #include "chess.h"
 
-int	check_square_valid(board ChessBoard, int y, int x, unsigned int team)
+int	check_square_valid(board ChessBoard, int y, int x, int team)
 {
 	// TODO: add check function to verify if we are not in check and if so the move is valid
 	if (y < 0 || y >= 8 || x < 0 || x >= 8)
         	return (0);
-	if (!(ChessBoard.ChessSquare[y][x].ChessPiece.name) || (ChessBoard.ChessSquare[y][x].Chesspiece.color == -1))
+	if (!(ChessBoard.ChessSquare[y][x].ChessPiece.name) || (ChessBoard.ChessSquare[y][x].ChessPiece.color == -1))
 		return (0);
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 1)
 		return (1);
@@ -368,7 +368,7 @@ int	**get_name_move(piece piece, board ChessBoard)
 	return (NULL);
 }
 
-int	***get_threatmap(board ChessBoard, unsigned int team)
+int	***get_threatmap(board ChessBoard, int team)
 {
 	int	i;
 	int	k;
@@ -501,7 +501,7 @@ int	main(void)
 	
 	ptr_tab(ChessBoard);
 	*/
-	char *new_fenstring = "8/Rb2pq2/1P6/4kp2/1N2p1Pp/8/2P3rr/2KB4";
+	char *new_fenstring = "8/Rb2pq2/1P6/4kp2/1N2p1Pp/8/2P3rr/2KB4 w";
 	printf("fenstring = %s\n", new_fenstring);
 	board ChessBoard = Fill_starting_position(new_fenstring);
 	ptr_tab(ChessBoard);
