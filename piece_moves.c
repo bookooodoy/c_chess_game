@@ -161,8 +161,8 @@ int	**get_legal_moves_knight(piece *piece, board ChessBoard)
 	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords - 2, piece->color))
 	{
 		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
-		coordinates[0] = piece->y_cords + 1;
-		coordinates[1] = piece->x_cords + 2;
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords - 2;
 		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	legal_moves[i] = NULL;
@@ -431,14 +431,14 @@ int	cords_in_threatmap(int *cords, int ***threatmap)
 	int	k;
 	int	c;
 
-	i = c = 0;
+	i = 0;
 	while (threatmap[i])
 	{
 		j = 0;
 		while (threatmap[i][j])
 		{
-			k = 0;
-			while (threatmap[i][j][k])
+			c = k = 0;
+			while (k < 2)
 			{
 				if (threatmap[i][j][k] == cords[k])
 					c++;
@@ -569,7 +569,6 @@ void	ptr_moves(int **moves)
 	while (moves[i])
 	{
 		k = 0;
-		printf("[");
 		while (k < 2)
 		{
 			if (k == 1)
@@ -578,37 +577,30 @@ void	ptr_moves(int **moves)
 				printf("%d,", moves[i][k]);
 			k++;
 		}
-		printf("],");
+		printf("] ");
 		i++;
 	}
-	printf("]");
 }
 
 int	main(void)
 {
-	char *new_fenstring = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+	char *new_fenstring = "3n2N1/4N3/7P/P1p4q/p3B3/1R1r1P2/1P3pk1/2K5";
 	printf("fenstring = %s\n", new_fenstring);
 	board ChessBoard = Fill_starting_position(new_fenstring);
 	ptr_tab(ChessBoard);
-	printf("\n=========LEGAL_MOVES=BLACK==========\n");
-	//int ***threatmap_b = get_threatmap(ChessBoard, 1);
-	//ptr_threatmap(threatmap_b);
-	int **bpawn = get_legal_moves_bpawn(&(ChessBoard.ChessSquare[1][0].ChessPiece), ChessBoard);
+	/*printf("\n=========LEGAL_MOVES=BLACK==========\n");
+	int ***threatmap_b = get_threatmap(ChessBoard, 1);
+	ptr_threatmap(threatmap_b);
 	
 
-	//printf("\n=========LEGAL_MOVES=WHITE==========\n");
-	//int ***threatmap_w = get_threatmap(ChessBoard, 0);
-	//ptr_threatmap(threatmap_w);
-
+	printf("\n=========LEGAL_MOVES=WHITE==========\n");
+	int ***threatmap_w = get_threatmap(ChessBoard, 0);
+	ptr_threatmap(threatmap_w);
+*/
 	printf("\n==============DEBUGGING=============\n");
 	//ptr_parameters_debug(ChessBoard);
-	printf("%d, ", bpawn[0][0]);
-	
-	printf("%d\n", bpawn[0][1]);
-	
-	printf("%d, ", bpawn[1][0]);
-	
-	printf("%d\n", bpawn[1][1]);
+	int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
+	ptr_moves(bmoves);
 	
 	return (0);
 }
