@@ -18,7 +18,7 @@ int	**ft_strjoin(int **a, int **b)
 	int	k;
 
 	i = k = 0;
-	new_tab = (int **)malloc(sizeof(int *) * (tab_len(a) + tab_len(b)) + 1);
+	new_tab = (int **)malloc(sizeof(int *) * ((tab_len(a) + tab_len(b))) + 1);
 	if (!new_tab)
 		return (NULL);
 	while (a[i])

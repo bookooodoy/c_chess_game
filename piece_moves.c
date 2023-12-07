@@ -532,55 +532,40 @@ int	**get_legal_moves_king(piece *piece, board ChessBoard, int ***threatmap)
 	return (legal_moves); 
 }
 
+void    ptr_moves(int **moves)
+{
+        int i = 0;
+        int k;
+
+        printf("[");
+        while (moves[i])
+        {
+                k = 0;
+                while (k < 2)
+                {
+                        if (k == 1)
+                                printf("%d", moves[i][k]);
+                        else
+                                printf("%d,", moves[i][k]);
+                        k++;
+                }
+                printf("] ");
+                i++;
+        }
+}
+
 void	ptr_threatmap(int ***threatmap)
 {
-	int k;
 	int i;
-	int j;
 
-	i = j = 0;
+	i = 0;
 	while (threatmap[i])
 	{
-		while (threatmap[i][j])
-		{
-			k = 0;
-			printf("[");
-			while (k < 2)
-			{
-				if (k == 1)
-					printf("%i", threatmap[i][j][k]);
-				else
-					printf("%i,", threatmap[i][j][k]);
-				k++;
-			}
-			printf("] \n");
-			j++;
-		}
+		ptr_moves(threatmap[i]);
 		i++;
 	}
 }
 
-void	ptr_moves(int **moves)
-{
-	int i = 0;
-	int k;
-
-	printf("[");
-	while (moves[i])
-	{
-		k = 0;
-		while (k < 2)
-		{
-			if (k == 1)
-				printf("%d", moves[i][k]);
-			else
-				printf("%d,", moves[i][k]);
-			k++;
-		}
-		printf("] ");
-		i++;
-	}
-}
 
 int	main(void)
 {
@@ -588,15 +573,17 @@ int	main(void)
 	printf("fenstring = %s\n", new_fenstring);
 	board ChessBoard = Fill_starting_position(new_fenstring);
 	ptr_tab(ChessBoard);
-	/*printf("\n=========LEGAL_MOVES=BLACK==========\n");
+	printf("\n=========LEGAL_MOVES=BLACK==========\n");
 	int ***threatmap_b = get_threatmap(ChessBoard, 1);
 	ptr_threatmap(threatmap_b);
+	//ptr_threatmap(threatmap_b);
 	
 
 	printf("\n=========LEGAL_MOVES=WHITE==========\n");
 	int ***threatmap_w = get_threatmap(ChessBoard, 0);
 	ptr_threatmap(threatmap_w);
-*/
+	//ptr_threatmap(threatmap_w);
+
 	printf("\n==============DEBUGGING=============\n");
 	//ptr_parameters_debug(ChessBoard);
 	int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
