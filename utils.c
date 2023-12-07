@@ -34,3 +34,26 @@ int	**ft_strjoin(int **a, int **b)
 	new_tab[i + k] = NULL;
 	return (new_tab);
 }
+
+void    free_tab(int **tab)
+{
+        int i = 0;
+        while (tab[i])
+        {
+                free(tab[i]);
+                i++;
+        }
+        free(tab);
+}
+
+void	free_threatmap(int ***threatmap)
+{
+	int i = 0;
+
+	while (threatmap[i])
+	{
+		free_tab(threatmap[i]);
+		i++;
+	}
+	free(threatmap);
+}

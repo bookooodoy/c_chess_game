@@ -4,21 +4,11 @@ int	check_square_valid(const board ChessBoard, int y, int x, int team)
 {
 	// TODO: add check function to verify if we are not in check and if so the move is valid
 	if ((y < 0 || y >= 8 )|| (x < 0 || x >= 8))
-	{
-		printf("\nBAD SQUARE at Square = [%i, %i], color = %i\n", y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
         	return (0);
-	}
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 1)
-	{
-		printf("\nVALID EMPTY SQUARE at Square [%i, %i], color = %i\n", y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
 		return (1);
-	}
 	if (ChessBoard.ChessSquare[y][x].isEmpty == 0 && ChessBoard.ChessSquare[y][x].ChessPiece.color != -1 && ChessBoard.ChessSquare[y][x].ChessPiece.color != team && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'k' && ChessBoard.ChessSquare[y][x].ChessPiece.name != 'K')
-	{
-		printf("\nVALID SQUARE for piece =%c at Square [%i, %i], color = %i\n", ChessBoard.ChessSquare[y][x].ChessPiece.name, y, x, ChessBoard.ChessSquare[y][x].ChessPiece.color);
 		return (2);
-	}
-	printf("\nRETURN NOTHING\n");
 	return (0);
 }
 
@@ -33,32 +23,32 @@ int	**get_legal_moves_bpawn(piece *piece, board ChessBoard)
 		return (NULL);
 	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords, piece->color))
 	{
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords + 1;
 		coordinates[1] = piece->x_cords;
-		printf("%d %d\n", coordinates[0], coordinates[1]);
-		legal_moves[i++] = coordinates;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords, piece->color) && piece->piece_fullmove == 0)
 	{
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords + 2;
 		coordinates[1] = piece->x_cords;
-		printf("%i %i\n", coordinates[0], coordinates[1]);
-		legal_moves[i++] = coordinates;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	//Check for capture
 	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords - 1, piece->color) == 2)
 	{
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords + 1;
 		coordinates[1] = piece->x_cords - 1;
-		printf("%d %d\n", coordinates[0], coordinates[1]);
-		legal_moves[i++] = coordinates;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords + 1, piece->color) == 2)
 	{
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords + 1;
 		coordinates[1] = piece->x_cords + 1;
-		printf("%d %d\n", coordinates[0], coordinates[1]);
-		legal_moves[i++] = coordinates;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	// TODO: En passant
 	// TODO: Promotion
@@ -67,7 +57,7 @@ int	**get_legal_moves_bpawn(piece *piece, board ChessBoard)
 }
 
 
-int	**get_legal_moves_wpawn(piece piece, board ChessBoard)
+int	**get_legal_moves_wpawn(piece *piece, board ChessBoard)
 {
 	int	**legal_moves;
 	int	coordinates[2];
@@ -76,29 +66,33 @@ int	**get_legal_moves_wpawn(piece piece, board ChessBoard)
 	legal_moves = (int **)malloc(sizeof(int *) * 5);
 	if (!legal_moves)
 		return (NULL);
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 2, piece.x_cords, piece.color) && piece.piece_fullmove == 0)
+	if (check_square_valid(ChessBoard, piece->y_cords - 2, piece->x_cords, piece->color) && piece->piece_fullmove == 0)
 	{
-		coordinates[0] = piece.y_cords - 2;
-		coordinates[1] = piece.x_cords;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 2;
+		coordinates[1] = piece->x_cords;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords - 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords - 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords + 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords + 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	// TODO: En passant
 	// TODO: Promotion
@@ -106,7 +100,7 @@ int	**get_legal_moves_wpawn(piece piece, board ChessBoard)
 	return (legal_moves);
 }
 
-int	**get_legal_moves_knight(piece piece, board ChessBoard)
+int	**get_legal_moves_knight(piece *piece, board ChessBoard)
 {
 	int	**legal_moves;
 	int	coordinates[2];
@@ -115,59 +109,67 @@ int	**get_legal_moves_knight(piece piece, board ChessBoard)
 	legal_moves = (int **)malloc(sizeof(int *) * 9);
 	if (!legal_moves)
 		return (NULL);
-	if (check_square_valid(ChessBoard, piece.y_cords + 2, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 2;
-		coordinates[1] = piece.x_cords + 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 2;
+		coordinates[1] = piece->x_cords + 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 2, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 2;
-		coordinates[1] = piece.x_cords - 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 2;
+		coordinates[1] = piece->x_cords - 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 2, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 2, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 2;
-		coordinates[1] = piece.x_cords + 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 2;
+		coordinates[1] = piece->x_cords + 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 2, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 2, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 2;
-		coordinates[1] = piece.x_cords - 1;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 2;
+		coordinates[1] = piece->x_cords - 1;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords + 2, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords + 2, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords + 2;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords + 2;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords + 2, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords + 2, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords + 2;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords + 2;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords - 2, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords - 2, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords - 2;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords - 2;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords - 2, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords - 2, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords + 2;
-		legal_moves[i++] = coordinates;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords + 2;
+		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	legal_moves[i] = NULL;
 	return (legal_moves);
 }
 
-int	**get_legal_moves_rook(piece piece, board ChessBoard)
+int	**get_legal_moves_rook(piece *piece, board ChessBoard)
 {
 	int	**legal_moves;
 	int	coordinates[2];
@@ -182,74 +184,82 @@ int	**get_legal_moves_rook(piece piece, board ChessBoard)
 	while (1)
 	{
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords - i, piece.x_cords, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords - i, piece->x_cords, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords + i, piece.x_cords, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords + i, piece->x_cords, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords, piece.x_cords - i, piece.color)))
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords, piece->x_cords - i, piece->color)))
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords, piece.x_cords + i, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords, piece->x_cords + i, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
@@ -259,7 +269,7 @@ int	**get_legal_moves_rook(piece piece, board ChessBoard)
 	return (legal_moves);
 }
 
-int	**get_legal_moves_bishop(piece piece, board ChessBoard)
+int	**get_legal_moves_bishop(piece *piece, board ChessBoard)
 {
 	int	**legal_moves;
 	int	coordinates[2];
@@ -274,74 +284,82 @@ int	**get_legal_moves_bishop(piece piece, board ChessBoard)
 	while (1)
 	{
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords - i, piece.x_cords - i, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords - i, piece->x_cords - i, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords + i, piece.x_cords - i, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords + i, piece->x_cords - i, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords - i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords - i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords - i, piece.x_cords + i, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords - i, piece->x_cords + i, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords - i;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords - i;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
 		i = 1;
-		while ((ret = check_square_valid(ChessBoard, piece.y_cords + i, piece.x_cords + i, piece.color))) 
+		while ((ret = check_square_valid(ChessBoard, piece->y_cords + i, piece->x_cords + i, piece->color))) 
 		{
 			if (ret == 2)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 				break ;
 			}
 			else if (ret == 1)
 			{
-				coordinates[0] = piece.y_cords + i;
-				coordinates[1] = piece.x_cords + i;
-				legal_moves[j++] = coordinates;
+				legal_moves[j] = (int *)malloc(sizeof(int) * 2);
+				coordinates[0] = piece->y_cords + i;
+				coordinates[1] = piece->x_cords + i;
+				memcpy(legal_moves[j++], coordinates, sizeof(int) * 2);
 			}
 			i++;
 		}
@@ -351,7 +369,7 @@ int	**get_legal_moves_bishop(piece piece, board ChessBoard)
 	return (legal_moves);
 }
 
-int	**get_legal_moves_queen(piece piece, board ChessBoard)
+int	**get_legal_moves_queen(piece *piece, board ChessBoard)
 {
 	int	**legal_moves;
 	int	**diagonal;
@@ -363,19 +381,19 @@ int	**get_legal_moves_queen(piece piece, board ChessBoard)
 	return (legal_moves);
 }
 
-int	**get_name_move(piece piece, board ChessBoard)
+int	**get_name_move(piece *piece, board ChessBoard)
 {
-	if (piece.name == 'p')
-		return (get_legal_moves_bpawn(&piece, ChessBoard));
-	if (piece.name == 'P')
+	if (piece->name == 'p')
+		return (get_legal_moves_bpawn(piece, ChessBoard));
+	if (piece->name == 'P')
 		return (get_legal_moves_wpawn(piece, ChessBoard));
-	if (piece.name == 'q' || piece.name == 'Q')
+	if (piece->name == 'q' || piece->name == 'Q')
 		return (get_legal_moves_queen(piece, ChessBoard));
-	if (piece.name == 'n' || piece.name == 'N')
+	if (piece->name == 'n' || piece->name == 'N')
 		return (get_legal_moves_knight(piece, ChessBoard));
-	if (piece.name == 'r' || piece.name == 'R')
+	if (piece->name == 'r' || piece->name == 'R')
 		return (get_legal_moves_rook(piece, ChessBoard));
-	if (piece.name == 'b' || piece.name == 'B')
+	if (piece->name == 'b' || piece->name == 'B')
 		return (get_legal_moves_bishop(piece, ChessBoard));
 	return (NULL);
 }
@@ -397,7 +415,7 @@ int	***get_threatmap(board ChessBoard, int team)
 		while (k < 8)
 		{
 			if (ChessBoard.ChessSquare[i][k].isEmpty == 0 && ChessBoard.ChessSquare[i][k].ChessPiece.color != team)
-				threatmap[len++] = get_name_move(ChessBoard.ChessSquare[i][k].ChessPiece, ChessBoard);
+				threatmap[len++] = get_name_move(&(ChessBoard.ChessSquare[i][k].ChessPiece), ChessBoard);
 			k++;
 		}
 		i++;
@@ -435,7 +453,7 @@ int	cords_in_threatmap(int *cords, int ***threatmap)
 	return (0);
 }
 
-int	**get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap)
+int	**get_legal_moves_king(piece *piece, board ChessBoard, int ***threatmap)
 {
 	int	**legal_moves;
 	int	coordinates[2];
@@ -445,62 +463,70 @@ int	**get_legal_moves_king(piece piece, board ChessBoard, int ***threatmap)
 	legal_moves = (int **)malloc(sizeof(int *) * 9);
 	if (!legal_moves)
 		return (NULL);
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords + 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords + 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords + 1, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords + 1, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords + 1;
-		coordinates[1] = piece.x_cords - 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords + 1;
+		coordinates[1] = piece->x_cords - 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords + 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords + 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords - 1, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords - 1, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords - 1;
-		coordinates[1] = piece.x_cords - 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords - 1;
+		coordinates[1] = piece->x_cords - 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords, piece.x_cords + 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords, piece->x_cords + 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords;
-		coordinates[1] = piece.x_cords + 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords;
+		coordinates[1] = piece->x_cords + 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece.y_cords, piece.x_cords - 1, piece.color))
+	if (check_square_valid(ChessBoard, piece->y_cords, piece->x_cords - 1, piece->color))
 	{
-		coordinates[0] = piece.y_cords;
-		coordinates[1] = piece.x_cords - 1;
+		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
+		coordinates[0] = piece->y_cords;
+		coordinates[1] = piece->x_cords - 1;
 		if (!cords_in_threatmap(coordinates, threatmap))
-			legal_moves[i++] = coordinates;
+			memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
 	legal_moves[i] = NULL;
 	return (legal_moves); 
@@ -540,7 +566,7 @@ void	ptr_moves(int **moves)
 	int k;
 
 	printf("[");
-	while (i < 2)
+	while (moves[i])
 	{
 		k = 0;
 		printf("[");
@@ -568,14 +594,21 @@ int	main(void)
 	//int ***threatmap_b = get_threatmap(ChessBoard, 1);
 	//ptr_threatmap(threatmap_b);
 	int **bpawn = get_legal_moves_bpawn(&(ChessBoard.ChessSquare[1][0].ChessPiece), ChessBoard);
-	ptr_moves(bpawn);
+	
 
-	/*printf("\n=========LEGAL_MOVES=WHITE==========\n");
-	int ***threatmap_w = get_threatmap(ChessBoard, 0);
-	ptr_threatmap(threatmap_w);
+	//printf("\n=========LEGAL_MOVES=WHITE==========\n");
+	//int ***threatmap_w = get_threatmap(ChessBoard, 0);
+	//ptr_threatmap(threatmap_w);
 
 	printf("\n==============DEBUGGING=============\n");
-	ptr_parameters_debug(ChessBoard);
-*/
+	//ptr_parameters_debug(ChessBoard);
+	printf("%d, ", bpawn[0][0]);
+	
+	printf("%d\n", bpawn[0][1]);
+	
+	printf("%d, ", bpawn[1][0]);
+	
+	printf("%d\n", bpawn[1][1]);
+	
 	return (0);
 }
