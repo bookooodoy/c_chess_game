@@ -587,6 +587,8 @@ int	main(void)
 	printf("\n==============DEBUGGING=============\n");
 	//ptr_parameters_debug(ChessBoard);
 	int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
+	int fullmove = get_fullmove(ChessBoard);
+	printf("fullmove = %i\n", fullmove); 
 	ptr_moves(bmoves);
 	
 	return (0);
