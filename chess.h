@@ -13,7 +13,7 @@ typedef struct
 	unsigned int	x_cords;
 	unsigned int	y_cords;
 	int		color;
-	int		piece_fullmove;
+	int		piece_moves;
 } piece;
 
 typedef struct
@@ -47,6 +47,6 @@ void    ptr_parameters_debug(board CheBoard);
 void    initialize_piece(piece *piece, char name, unsigned int x_cords, unsigned int y_cords, int color, unsigned int piece_fullmove);
 void    free_threatmap(int ***threatmap);
 void    free_tab(int **tab);
-int     get_fullmove(const board ChessBoard);
+char    *get_castling_rights(const board ChessBoard, piece *king);
 
 #endif

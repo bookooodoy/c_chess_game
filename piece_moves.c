@@ -28,7 +28,7 @@ int	**get_legal_moves_bpawn(piece *piece, board ChessBoard)
 		coordinates[1] = piece->x_cords;
 		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords, piece->color) && piece->piece_fullmove == 0)
+	if (check_square_valid(ChessBoard, piece->y_cords + 2, piece->x_cords, piece->color) && piece->piece_moves == 0)
 	{
 		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords + 2;
@@ -73,7 +73,7 @@ int	**get_legal_moves_wpawn(piece *piece, board ChessBoard)
 		coordinates[1] = piece->x_cords;
 		memcpy(legal_moves[i++], coordinates, sizeof(int) * 2);
 	}
-	if (check_square_valid(ChessBoard, piece->y_cords - 2, piece->x_cords, piece->color) && piece->piece_fullmove == 0)
+	if (check_square_valid(ChessBoard, piece->y_cords - 2, piece->x_cords, piece->color) && piece->piece_moves == 0)
 	{
 		legal_moves[i] = (int *)malloc(sizeof(int) * 2);
 		coordinates[0] = piece->y_cords - 2;
@@ -569,7 +569,7 @@ void	ptr_threatmap(int ***threatmap)
 
 int	main(void)
 {
-	char *new_fenstring = "3n2N1/4N3/7P/P1p4q/p3B3/1R1r1P2/1P3pk1/2K5";
+	char *new_fenstring = "4k2r/6r1/8/8/8/8/3R4/R3K3";
 	printf("fenstring = %s\n", new_fenstring);
 	board ChessBoard = Fill_starting_position(new_fenstring);
 	ptr_tab(ChessBoard);
@@ -582,14 +582,18 @@ int	main(void)
 	printf("\n=========LEGAL_MOVES=WHITE==========\n");
 	int ***threatmap_w = get_threatmap(ChessBoard, 0);
 	ptr_threatmap(threatmap_w);
+
 	//ptr_threatmap(threatmap_w);
 
 	printf("\n==============DEBUGGING=============\n");
-	//ptr_parameters_debug(ChessBoard);
-	int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
-	int fullmove = get_fullmove(ChessBoard);
-	printf("fullmove = %i\n", fullmove); 
-	ptr_moves(bmoves);
+	ptr_parameters_debug(ChessBoard);
+	/*int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
+	ptr_moves(bmoves);*/
+	
+	printf("\n==============TESTING=============\n");
+	char *castling_rights_white = get_castling_rights(ChessBoard, &(ChessBoard.ChessSquare[7][4].ChessPiece));
+	char *castling_rights_black = get_castling_rights(ChessBoard, &(ChessBoard.ChessSquare[0][4].ChessPiece));
+	printf("Castling rights (to add to FEN string) = %s%s\n", castling_rights_white, castling_rights_black);
 	
 	return (0);
 }
