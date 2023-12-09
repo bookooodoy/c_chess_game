@@ -415,7 +415,10 @@ int	***get_threatmap(board ChessBoard, int team)
 		while (k < 8)
 		{
 			if (ChessBoard.ChessSquare[i][k].isEmpty == 0 && ChessBoard.ChessSquare[i][k].ChessPiece.color != team)
+			{
+				printf("piece %c of color %i at coords [%i][%i]\n\n", ChessBoard.ChessSquare[i][k].ChessPiece.name, ChessBoard.ChessSquare[i][k].ChessPiece.color, i, k);
 				threatmap[len++] = get_name_move(&(ChessBoard.ChessSquare[i][k].ChessPiece), ChessBoard);
+			}
 			k++;
 		}
 		i++;
@@ -537,10 +540,10 @@ void    ptr_moves(int **moves)
         int i = 0;
         int k;
 
-        printf("[");
         while (moves[i])
         {
                 k = 0;
+		printf("[");
                 while (k < 2)
                 {
                         if (k == 1)
@@ -583,17 +586,19 @@ int	main(void)
 	int ***threatmap_w = get_threatmap(ChessBoard, 0);
 	ptr_threatmap(threatmap_w);
 
-	//ptr_threatmap(threatmap_w);
+	ptr_threatmap(threatmap_w);
 
 	printf("\n==============DEBUGGING=============\n");
-	ptr_parameters_debug(ChessBoard);
-	/*int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
-	ptr_moves(bmoves);*/
+	//ptr_parameters_debug(ChessBoard);
+
+	int **bmoves = get_legal_moves_queen(&(ChessBoard.ChessSquare[3][7].ChessPiece), ChessBoard);
+	printf("QUEEN MOVES : ");
+	ptr_moves(bmoves);
 	
 	printf("\n==============TESTING=============\n");
 	char *castling_rights_white = get_castling_rights(ChessBoard, &(ChessBoard.ChessSquare[7][4].ChessPiece));
 	char *castling_rights_black = get_castling_rights(ChessBoard, &(ChessBoard.ChessSquare[0][4].ChessPiece));
-	printf("Castling rights (to add to FEN string) = %s%s\n", castling_rights_white, castling_rights_black);
+	printf("Castling rights (to add to FEN string) = %s%s\n\n", castling_rights_white, castling_rights_black);
 	
 	return (0);
 }
