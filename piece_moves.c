@@ -414,10 +414,11 @@ int	***get_threatmap(board ChessBoard, int team)
 		k = 0;
 		while (k < 8)
 		{
-			if (ChessBoard.ChessSquare[i][k].isEmpty == 0 && ChessBoard.ChessSquare[i][k].ChessPiece.color != team)
+			if ((ChessBoard.ChessSquare[i][k].isEmpty == 0) && ChessBoard.ChessSquare[i][k].ChessPiece.color != team)
 			{
 				printf("piece %c of color %i at coords [%i][%i]\n\n", ChessBoard.ChessSquare[i][k].ChessPiece.name, ChessBoard.ChessSquare[i][k].ChessPiece.color, i, k);
-				threatmap[len++] = get_name_move(&(ChessBoard.ChessSquare[i][k].ChessPiece), ChessBoard);
+				if (get_name_move(&(ChessBoard.ChessSquare[i][k].ChessPiece), ChessBoard) != NULL)
+					threatmap[len++] = get_name_move(&(ChessBoard.ChessSquare[i][k].ChessPiece), ChessBoard);
 			}
 			k++;
 		}
@@ -584,7 +585,6 @@ int	main(void)
 
 	printf("\n=========LEGAL_MOVES=WHITE==========\n");
 	int ***threatmap_w = get_threatmap(ChessBoard, 0);
-	ptr_threatmap(threatmap_w);
 
 	ptr_threatmap(threatmap_w);
 
